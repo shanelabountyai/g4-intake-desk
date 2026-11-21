@@ -1,0 +1,324 @@
+{
+  "_about": "Hand-written router responses in the router_v1 shape, keyed router:<intake id> (D-6). NOT a recording of a live model; some answers are deliberately wrong or unsure (i08, i20, i29, i33, i36, and low-confidence i12, i21).",
+  "model": "claude-sonnet-5-5",
+  "responses": {
+    "router:i01": {
+      "route": "book",
+      "confidence": 0.93,
+      "reasons": [
+        "Clear maintenance request with system details",
+        "Normal urgency, flexible timing",
+        "Received in business hours"
+      ]
+    },
+    "router:i02": {
+      "route": "book",
+      "confidence": 0.86,
+      "reasons": [
+        "Specific comfort issue, system still running",
+        "Caller says not urgent and asks for a visit this week"
+      ]
+    },
+    "router:i03": {
+      "route": "book",
+      "confidence": 0.91,
+      "reasons": [
+        "Clear maintenance request with unit size",
+        "Preferred time given",
+        "Business hours"
+      ]
+    },
+    "router:i04": {
+      "route": "book",
+      "confidence": 0.88,
+      "reasons": [
+        "Specific install request",
+        "Flexible availability this week"
+      ]
+    },
+    "router:i05": {
+      "route": "book",
+      "confidence": 0.84,
+      "reasons": [
+        "Maintenance visit requested",
+        "Access window given (weekdays)"
+      ]
+    },
+    "router:i06": {
+      "route": "book",
+      "confidence": 0.9,
+      "reasons": [
+        "Plan customer asking for routine inspection",
+        "Days given"
+      ]
+    },
+    "router:i07": {
+      "route": "book",
+      "confidence": 0.78,
+      "reasons": [
+        "Performance issue, unit still running",
+        "Visit requested this week"
+      ]
+    },
+    "router:i08": {
+      "route": "follow_up",
+      "confidence": 0.72,
+      "reasons": [
+        "Asks about pricing for a new furnace",
+        "Treating as price inquiry; send pricing info"
+      ]
+    },
+    "router:i09": {
+      "route": "book",
+      "confidence": 0.8,
+      "reasons": [
+        "Specific symptom, house still warm",
+        "Caller proposes Monday",
+        "Saturday business hours"
+      ]
+    },
+    "router:i10": {
+      "route": "book",
+      "confidence": 0.82,
+      "reasons": [
+        "Minor issue contained in the pan",
+        "No urgency stated"
+      ]
+    },
+    "router:i11": {
+      "route": "follow_up",
+      "confidence": 0.9,
+      "reasons": [
+        "Price shopping, no service requested yet"
+      ]
+    },
+    "router:i12": {
+      "route": "follow_up",
+      "confidence": 0.45,
+      "reasons": [
+        "No service, system or urgency stated",
+        "Unknown caller",
+        "Not enough to act on"
+      ]
+    },
+    "router:i13": {
+      "route": "follow_up",
+      "confidence": 0.87,
+      "reasons": [
+        "After hours, not urgent",
+        "Confirm a slot in the morning"
+      ]
+    },
+    "router:i14": {
+      "route": "follow_up",
+      "confidence": 0.83,
+      "reasons": [
+        "After hours, still cooling, caller asks for next week"
+      ]
+    },
+    "router:i15": {
+      "route": "follow_up",
+      "confidence": 0.74,
+      "reasons": [
+        "Too little detail to book",
+        "Ask what the unit is doing"
+      ]
+    },
+    "router:i16": {
+      "route": "follow_up",
+      "confidence": 0.88,
+      "reasons": [
+        "Financing and price question, no visit requested"
+      ]
+    },
+    "router:i17": {
+      "route": "follow_up",
+      "confidence": 0.92,
+      "reasons": [
+        "Plumbing request, outside HVAC",
+        "Not urgent"
+      ]
+    },
+    "router:i18": {
+      "route": "follow_up",
+      "confidence": 0.9,
+      "reasons": [
+        "Electrical work, outside HVAC",
+        "Not urgent"
+      ]
+    },
+    "router:i19": {
+      "route": "follow_up",
+      "confidence": 0.93,
+      "reasons": [
+        "Roofing/gutter work, outside HVAC"
+      ]
+    },
+    "router:i20": {
+      "route": "book",
+      "confidence": 0.74,
+      "reasons": [
+        "Clear inspection request",
+        "Book next available slot"
+      ]
+    },
+    "router:i21": {
+      "route": "follow_up",
+      "confidence": 0.62,
+      "reasons": [
+        "Refers to an earlier form we can't match",
+        "No request stated"
+      ]
+    },
+    "router:i22": {
+      "route": "follow_up",
+      "confidence": 0.7,
+      "reasons": [
+        "No system or symptom given",
+        "Ask for details"
+      ]
+    },
+    "router:i23": {
+      "route": "follow_up",
+      "confidence": 0.86,
+      "reasons": [
+        "Fee question only"
+      ]
+    },
+    "router:i24": {
+      "route": "escalate",
+      "confidence": 0.97,
+      "reasons": [
+        "No heat in sub-freezing weather",
+        "Infant in the home",
+        "After hours: alert on-call"
+      ]
+    },
+    "router:i25": {
+      "route": "escalate",
+      "confidence": 0.98,
+      "reasons": [
+        "Possible gas leak",
+        "Safety hazard"
+      ]
+    },
+    "router:i26": {
+      "route": "escalate",
+      "confidence": 0.97,
+      "reasons": [
+        "CO alarm near furnace",
+        "Life-safety hazard"
+      ]
+    },
+    "router:i27": {
+      "route": "escalate",
+      "confidence": 0.9,
+      "reasons": [
+        "No cooling in extreme heat",
+        "Vulnerable occupant on oxygen"
+      ]
+    },
+    "router:i28": {
+      "route": "escalate",
+      "confidence": 0.93,
+      "reasons": [
+        "Active leak from air handler",
+        "Property damage in progress"
+      ]
+    },
+    "router:i29": {
+      "route": "book",
+      "confidence": 0.76,
+      "reasons": [
+        "Noise from furnace",
+        "Schedule a diagnostic visit"
+      ]
+    },
+    "router:i30": {
+      "route": "escalate",
+      "confidence": 0.91,
+      "reasons": [
+        "Heating outage in winter",
+        "Elderly residents"
+      ]
+    },
+    "router:i31": {
+      "route": "escalate",
+      "confidence": 0.95,
+      "reasons": [
+        "Sparks at condenser",
+        "Fire risk"
+      ]
+    },
+    "router:i32": {
+      "route": "escalate",
+      "confidence": 0.88,
+      "reasons": [
+        "Active flooding",
+        "Plumbing, outside HVAC, but an emergency: owner decides referral"
+      ]
+    },
+    "router:i33": {
+      "route": "follow_up",
+      "confidence": 0.66,
+      "reasons": [
+        "Possible repeat issue",
+        "Ask for more detail"
+      ]
+    },
+    "router:i34": {
+      "route": "escalate",
+      "confidence": 0.9,
+      "reasons": [
+        "Angry repeat-visit complaint",
+        "Asks for a manager"
+      ]
+    },
+    "router:i35": {
+      "route": "escalate",
+      "confidence": 0.88,
+      "reasons": [
+        "Billing dispute",
+        "Customer frustrated by no callback"
+      ]
+    },
+    "router:i36": {
+      "route": "follow_up",
+      "confidence": 0.68,
+      "reasons": [
+        "Customer wants a callback about install cleanup"
+      ]
+    },
+    "router:i37": {
+      "route": "escalate",
+      "confidence": 0.96,
+      "reasons": [
+        "Repeat call, no heat",
+        "Same caller as an open emergency"
+      ]
+    },
+    "router:i38": {
+      "route": "book",
+      "confidence": 0.92,
+      "reasons": [
+        "Clear maintenance request",
+        "Business hours"
+      ]
+    },
+    "router:i39": {
+      "route": "follow_up",
+      "confidence": 0.89,
+      "reasons": [
+        "Price question"
+      ]
+    },
+    "router:i40": {
+      "route": "book",
+      "confidence": 0.9,
+      "reasons": [
+        "Clear maintenance request",
+        "Flexible timing"
+      ]
+    }
+  }
+}
