@@ -1,0 +1,16 @@
+{
+  "_about": "G4 routing rubric (D-22). Seeded into G0's rubric store through G0's own loader; scored by G0's evaluation capability (DeterministicJudge + decide()). The item is an object the report assembles per labeled intake: {intake_id, label, final_route, route_correct, emergency, emergency_safe, reasons_logged}.",
+  "rubrics": [
+    {
+      "id": "g4_route_v1",
+      "title": "Intake routed to the labeled route; emergencies always escalated; reasons logged",
+      "source": "g4-intake-desk docs/prd.md acceptance criteria 1, 2, 5",
+      "pass_threshold": 1.0,
+      "criteria": [
+        {"id": "route_correct", "weight": 1, "required": true, "description": "The final route equals the hand label.", "check": "field_in:route_correct:yes"},
+        {"id": "emergency_safe", "weight": 1, "required": true, "description": "A labeled emergency is escalated (n/a counts as safe for non-emergencies).", "check": "field_in:emergency_safe:yes,n/a"},
+        {"id": "reasons_logged", "weight": 1, "required": true, "description": "At least one reason was logged with the route.", "check": "field_nonempty:reasons"}
+      ]
+    }
+  ]
+}
