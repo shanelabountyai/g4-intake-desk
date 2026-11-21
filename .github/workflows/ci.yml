@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Install (locked)
+        run: uv sync --frozen
+      - name: Lint
+        run: uv run ruff check .
+      - name: Typecheck
+        run: uv run mypy
+      - name: Test
+        run: uv run pytest
+      - name: Eval report (recorded fixtures)
+        run: |
+          export G0_DB_PATH="$RUNNER_TEMP/layer.sqlite"
+          uv run intake-desk eval --run-id ci --out "$RUNNER_TEMP/out" --report "$RUNNER_TEMP/eval-report.md"
+      - name: Demo (one command)
+        run: uv run intake-desk demo
