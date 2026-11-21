@@ -15,7 +15,7 @@ Run `eval` · router `recorded` · threshold **0.70** · 40 labeled synthetic in
 | Emergencies the router alone did not escalate (caught by guard/threshold) | 2 ['i29', 'i33'] |
 | Booked below threshold | 0 |
 | G0 rubric passes (route correct, emergency safe, reasons logged) | 36/40 |
-| Escalation queue pending owner decision | 17 |
+| Queue items pending owner decision (escalations + held bookings, D-25) | 17 |
 | Outbound by status (all logged, none sent) | blocked_consent: 3, logged_not_sent: 35, suppressed_duplicate: 2 |
 | Run cost (G0 observability) | 40 router calls, 0 in / 0 out tokens, $0.0000 |
 

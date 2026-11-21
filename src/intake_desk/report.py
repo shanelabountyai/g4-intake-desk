@@ -155,7 +155,7 @@ def render(ev: EvalRun, run_id: str) -> str:
         f"| Emergencies the router alone did not escalate (caught by guard/threshold) | {len(m.missed_router_only)} {m.missed_router_only or ''} |",
         f"| Booked below threshold | {len(m.auto_booked_below_threshold)} |",
         f"| G0 rubric passes (route correct, emergency safe, reasons logged) | {ev.g0_passed}/{m.n} |",
-        f"| Escalation queue pending owner decision | {ev.queue_pending} |",
+        f"| Queue items pending owner decision (escalations + held bookings, D-25) | {ev.queue_pending} |",
         f"| Outbound by status (all logged, none sent) | {', '.join(f'{k}: {v}' for k, v in sorted(ev.outbound_status.items()))} |",
         f"| Run cost (G0 observability) | {ev.run_total['calls']} router calls, {ev.run_total['input_tokens']} in / "
         f"{ev.run_total['output_tokens']} out tokens, ${ev.run_total['cost_usd']:.4f} |",
