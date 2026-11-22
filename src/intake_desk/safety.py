@@ -27,13 +27,19 @@ _HAZARD = {
     "burning_or_smoke": r"\bburning smell\b|\bsmell(s|ing)? (of |like )?burning\b|\bsmoke\b",
     "sparks": r"\bspark(s|ing)?\b",
     "water_pouring": r"\bwater (is )?(pouring|everywhere|gushing|flooding)\b|\b(pipe|pipes) (has |have )?burst\b|\bburst pipe\b|\bflood(ed|ing)\b",
-    "no_heat": r"\bno heat\b|\bheat (went|is|has gone) out\b|\bfurnace (is )?(off|out|dead)\b|\bfurnace (won'?t|will not) (turn|come|start)\b",
+    "no_heat": r"\bno heat\b|\bheat (went|is|has gone) out\b|\bfurnace (is )?(off|out|dead)\b|\bfurnace (won'?t|will not) (turn|come|start)\b"
+               r"|\bheat(ing|er)? (isn'?t|is not|not|stopped) working\b",
+    "active_leak": r"\b(water|it'?s) (is )?(leaking|dripping|coming) (through|from|out of) (the )?ceiling\b"
+                   r"|\bleak(s|ing)? (through|from|in) (the )?ceiling\b|\bceiling is leaking\b",
 }
 # An outage alone is not always an emergency (a summer AC outage for a healthy adult may be next-day work);
 # an outage plus a vulnerability or an extreme temperature is.
-_OUTAGE = r"\b(ac|a/c|air|air conditioning|cooling|heat pump|furnace)\b.{0,30}\b(quit|died|dead|stopped|out|not working|won'?t (turn|come) on)\b"
+_OUTAGE = (r"\b(ac|a/c|air|air conditioning|cooling|heat pump|furnace|heat|heater|heating)\b"
+           r".{0,30}\b(quit|died|dead|stopped|out|not working|won'?t (turn|come) on)\b")
 _VULNERABLE = (r"\b(newborn|infant|baby|elderly|oxygen|medical|disabled|pregnant)\b"
-               r"|\b(1[0-2]\d|9[5-9]) ?(degrees|°|out)\b|\b([0-9]|1[0-9]) ?(degrees|°) (outside|out)\b")
+               r"|\b(1[0-2]\d|9[5-9]) ?(degrees\b|°|out\b)|\b([0-9]|[12][0-9]|3[0-2]) ?(degrees|°) ?(outside|out)\b")
+# Hot: 95-129 degrees (inside or out). Cold: below freezing (0-32) outside. Review 2026-11-22 widened cold from 0-19 and
+# fixed "101° " (a word boundary after the degree sign only matched when a letter followed).
 
 
 def emergency_signals(text: str) -> list[str]:

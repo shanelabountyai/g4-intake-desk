@@ -61,6 +61,10 @@ def test_calendar_is_synthetic_only() -> None:
     "I smell gas near the furnace", "Carbon monoxide detector is going off", "burning smell from the vents", "saw sparks at the condenser",
     "water pouring from the ceiling", "pipe burst in the basement", "No heat at all", "heat went out this morning", "furnace won't turn on",
     "furnace off again", "AC quit completely, it's 101 out", "the air stopped and my dad is on oxygen", "smoke coming out of the furnace",
+    # Review 2026-11-22 S2: the PRD's own examples ("no heat in winter", "active leak") phrased differently, and the
+    # degree-sign case D-11 cites.
+    "our heat quit and it's 10 degrees outside", "heat isn't working", "furnace stopped working and it's 25 degrees outside",
+    "water leaking through the ceiling", "AC died and it is 101° inside", "heater died, it's 30° outside",
 ])
 def test_guard_flags_hazards(text: str) -> None:
     assert emergency_signals(text), text
@@ -69,6 +73,7 @@ def test_guard_flags_hazards(text: str) -> None:
 @pytest.mark.parametrize("text", [
     "Annual furnace tune-up please", "AC is a little noisy when it starts", "How much for a tune-up?", "upstairs a few degrees colder",
     "furnace is short cycling, house still warm", "condensate drips into the pan", "Need service.", "AC not working right.",
+    "AC tune-up before the heat gets worse", "heat pump is running but upstairs is colder", "it's 45 degrees outside, tune-up please",
 ])
 def test_guard_is_quiet_on_routine_requests(text: str) -> None:
     assert emergency_signals(text) == []
