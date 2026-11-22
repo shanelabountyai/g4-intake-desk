@@ -1,5 +1,34 @@
 # NEXT
 
+## 2026-11-22 — overnight review (branch `build/g4c`, PR #1 stays draft and unmerged)
+
+**Review** (fresh review agent on PR #1's diff + PRD/backlog/decisions): **2 must-fix, 6 should-fix, 7 nits**, plus owner calls. Every README / NEXT / eval-report number was reproduced (36/40, 35/40, 16/40, 0 of 11 missed, i29/i33, sweep, outbox 3/35/2, 17 pending). G0 pinned by SHA and not copied; no secrets; no skipped tests; data synthetic.
+
+**Fixed (8, each with a failing test first except the CI step; D-32..D-38):**
+- `7b6e55b` M1 duplicate suppression from state: a second "book" after an earlier follow-up, or after an owner-approved booking, no longer books a second slot.
+- `f384a6f` M2 any router exception, or a router call over 60 s, escalates (`router_invalid`) instead of losing the intake before the guard runs.
+- `4d1fb0f` S2 emergency guard widened: ceiling leaks, "heat isn't working", heat/heater outages, cold 0–32 degrees outside, and the "101° " degree-sign regex bug.
+- `3370fde` S3 final reasons logged in the G0 observability note for every route (AC1 on the webhook path).
+- `ec6c4a3` S4 G0's run cost cap enforced before every live router call (it was reported, not enforced).
+- `13cd9ae` S5 webhook with an already-processed intake id → 409, nothing booked or sent.
+- `bb5c352` S6 no free synthetic slot → queued for the owner instead of an uncaught `LookupError`.
+- `622658a` S1 CI now diffs `docs/eval-report.md` against a fresh run.
+
+Eval report is byte-identical before and after every fix (no number moved). Tests 115 → 132.
+
+**Left (nits, D-39):** recorded router keyed by id only (ignores text); approve not atomic and can re-book a held booking; naive `received_at` → 500; bad threshold fails per intake; import scan misses `subprocess`/`asyncio.open_connection`; `layer.py` uses G0's private `db._seed_*`.
+
+**Decisions for Shane:**
+1. After-hours clear requests: today the router decides (i20, Sunday, is booked if the router says book though D-13 labels it follow-up). Options: (a) keep router judgement, (b) force follow-up in code after hours. *Recommend (b)* if the PRD row "after hours and not urgent → follow up" is a rule, not a hint.
+2. Follow-up after a booking for the same caller within 24 h (D-15 allows a different-route message). Options: allow / suppress. *Recommend allow* (new information).
+3. Guard false positives ("no gas smell" escalates; the widened guard escalates more). *Recommend keep* (fails safe) until a live run shows queue load.
+4. Saturday counts as business hours but has no slots (D-14/D-21). *Recommend* add Saturday 09:00/11:00 slots or drop Saturday hours.
+5. Still provisional: D-2..D-5, D-11, D-13, D-15, D-16, D-25; router model Sonnet vs Haiku (BACKLOG "Later").
+
+**Gate (local, 2026-11-22, branch head before this NEXT commit `5ec3171`):** `uv sync --frozen` ok · `uv run ruff check .` All checks passed! · `uv run mypy` Success: no issues found in 12 source files · `uv run pytest` 132 passed · `intake-desk eval --run-id eval` exit 0, report identical to `docs/eval-report.md` · `intake-desk demo` exit 0. **CI:** run 3 (push) and run 4 (pull_request) on `5ec3171`: success.
+
+**Not verified:** still no live model call (`AgentSdkRouter`, the 60 s timeout and the cap check have never met a real SDK); mypy skips `claude_agent_sdk` imports and the live router is excluded from coverage, so its SDK usage is unchecked; the widened guard is regex on text the reviewer and this run wrote, not real calls; the FastAPI app still has no auth and was only exercised with TestClient.
+
 State (2026-11-04): PRD only (`docs/prd.md`, v0.1). No code, no git repo yet.
 
 Next: owner creates the repo if wanted, then pastes `KICKOFF.md` into Claude Code. The session plans first and stops for review.
