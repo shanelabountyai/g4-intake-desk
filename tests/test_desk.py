@@ -142,3 +142,47 @@ def test_booking_with_blocked_confirmation_goes_to_owner(desk, by_id) -> None:
     assert o.status == "booked" and o.booking_id and o.outbound[0].status == "blocked_consent"
     q = desk.store.queue_item(o.queue_id)
     assert q["proposed_action"] == "owner_handled" and "confirm by phone" in q["why"]
+
+
+class ScriptedRouter:
+    """Answers with a fixed router_v1 response per intake id (review 2026-11-22)."""
+
+    name, measured, model = "scripted", False, "scripted"
+
+    def __init__(self, answers: dict[str, dict[str, object]]) -> None:
+        self.answers = answers
+        from collections import Counter
+        self.calls: Counter[str] = Counter()
+
+    async def route(self, intake, prompt):
+        from intake_desk.router import RouterCall
+        self.calls["router"] += 1
+        return RouterCall(model=self.model, raw=self.answers[intake.id])
+
+
+def _ans(route: str, conf: float = 0.9) -> dict[str, object]:
+    return {"route": route, "confidence": conf, "reasons": [f"scripted {route}"]}
+
+
+def _same_caller(iid: str, hour: int, text: str = "Furnace tune-up please, any weekday morning.") -> Intake:
+    return Intake(id=iid, source="form", received_at=datetime.fromisoformat(f"2026-01-13T{hour:02d}:00:00-06:00"), text=text,
+                  phone="+1-312-555-0101", email="synthetic.caller01@example.com", reply_channel="email")
+
+
+def test_duplicate_book_after_a_different_first_route_is_still_suppressed(make_desk) -> None:
+    # Review 2026-11-22 M1: the earliest intake in the window was a follow-up, so a second "book" from the same caller
+    # used to book a second slot. D-15: never double-book.
+    desk = make_desk(router=ScriptedRouter({"a": _ans("follow_up"), "b": _ans("book"), "c": _ans("book")}))
+    a, b, c = run(desk, _same_caller("a", 9), _same_caller("b", 10), _same_caller("c", 11))
+    assert a.status == "follow_up_logged" and b.status == "booked"
+    assert c.status == "suppressed_duplicate" and c.booking_id is None
+    assert len(desk.store.bookings()) == 1
+
+
+def test_book_after_owner_approved_booking_is_suppressed(make_desk) -> None:
+    # Review 2026-11-22 M1: an escalation the owner approved as "book" already holds a slot for this caller.
+    desk = make_desk(router=ScriptedRouter({"a": _ans("book", 0.5), "b": _ans("book")}))
+    [a] = run(desk, _same_caller("a", 9))
+    desk.approve(a.queue_id, "book")
+    [b] = run(desk, _same_caller("b", 10))
+    assert b.status == "suppressed_duplicate" and len(desk.store.bookings()) == 1

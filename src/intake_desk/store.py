@@ -120,6 +120,30 @@ class Store:
             (contact_id, intake_id, lo, hi)).fetchone()
         return dict(row) if row else None
 
+    def prior_action(self, intake_id: str, contact_id: str | None, received_at: datetime, window_hours: int, route: str) -> str | None:
+        """The intake whose action already covers a new `route` for this caller inside the window (D-15), or None.
+
+        Decided from state, not from the earliest intake: an earlier intake with the same route, or for `book` any
+        booking already held for this caller (including one the owner approved from the queue), or for `follow_up`
+        any follow-up already logged for this caller. Unknown callers are never deduplicated.
+        """
+        if contact_id is None:
+            return None
+        lo = (received_at - timedelta(hours=window_hours)).astimezone(UTC).isoformat()
+        hi = received_at.astimezone(UTC).isoformat()
+        win = "i.contact_id = ? AND i.intake_id != ? AND i.received_at >= ? AND i.received_at <= ?"
+        args = (contact_id, intake_id, lo, hi)
+        row = self.conn.execute(f"SELECT i.intake_id FROM intakes i WHERE {win} AND i.route = ? ORDER BY i.received_at LIMIT 1",
+                                (*args, route)).fetchone()
+        if row is None and route == "book":
+            row = self.conn.execute(f"SELECT i.intake_id FROM bookings b JOIN intakes i ON i.intake_id = b.intake_id WHERE {win} "
+                                    "ORDER BY i.received_at LIMIT 1", args).fetchone()
+        if row is None and route == "follow_up":
+            row = self.conn.execute(f"SELECT i.intake_id FROM outbox o JOIN intakes i ON i.intake_id = o.intake_id WHERE {win} "
+                                    "AND o.kind = 'follow_up' AND o.status != 'suppressed_duplicate' ORDER BY i.received_at LIMIT 1",
+                                    args).fetchone()
+        return str(row["intake_id"]) if row else None
+
     def remember_intake(self, intake_id: str, contact_id: str | None, received_at: datetime, route: str, outcome: str, payload: str) -> None:
         with self.conn:
             self.conn.execute("INSERT OR REPLACE INTO intakes (intake_id, contact_id, received_at, route, outcome, payload) VALUES (?,?,?,?,?,?)",

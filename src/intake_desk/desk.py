@@ -96,10 +96,11 @@ class Desk:
                           duplicate_of=dup["intake_id"] if dup else None, decision=decision, status="queued")
         if decision.route == "escalate":
             self._escalate(intake, contact_id, decision, outcome, after)
-        elif dup is not None and dup["route"] == decision.route:
+        elif (prior := self.store.prior_action(intake.id, contact_id, intake.received_at, cfg.duplicate_window_hours,
+                                               decision.route)) is not None:
             outcome.outbound.append(self._log(intake, kind="follow_up" if decision.route == "follow_up" else "booking_confirmation",
                                               channel=intake.reply_channel, to=contact_id or "unknown_caller", template="(none)", body="",
-                                              status="suppressed_duplicate", detail=f"duplicate of {dup['intake_id']} within "
+                                              status="suppressed_duplicate", detail=f"duplicate of {prior} within "
                                               f"{cfg.duplicate_window_hours}h; nothing new booked or sent (D-15)"))
             outcome.status = "suppressed_duplicate"
         elif decision.route == "book":
