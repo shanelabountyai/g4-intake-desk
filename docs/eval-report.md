@@ -8,13 +8,13 @@ Run `eval` · router `recorded` · threshold **0.70** · 40 labeled synthetic in
 
 | Metric | Value |
 |---|---|
-| Routing accuracy (final route = label; from G0 `evaluation`, rubric `g4_route_v1`) | 36/40 = 90.0% |
+| Routing accuracy (final route = label; from G0 `evaluation`, rubric `g4_route_v1`) | 37/40 = 92.5% |
 | Router-only accuracy (raw router route = label) | 35/40 = 87.5% |
 | Escalation rate | 16/40 = 40.0% |
 | Missed labeled emergencies (final) | **0** of 11  |
 | Emergencies the router alone did not escalate (caught by guard/threshold) | 2 ['i29', 'i33'] |
 | Booked below threshold | 0 |
-| G0 rubric passes (route correct, emergency safe, reasons logged) | 36/40 |
+| G0 rubric passes (route correct, emergency safe, reasons logged) | 37/40 |
 | Queue items pending owner decision (escalations + held bookings, D-25) | 17 |
 | Outbound by status (all logged, none sent) | blocked_consent: 3, logged_not_sent: 35, suppressed_duplicate: 2 |
 | Run cost (G0 observability) | 40 router calls, 0 in / 0 out tokens, $0.0000 |
@@ -24,16 +24,16 @@ Run `eval` · router `recorded` · threshold **0.70** · 40 labeled synthetic in
 | label \ routed | book | follow_up | escalate |
 |---|---|---|---|
 | book | 11 | 1 | 0 |
-| follow_up | 1 | 11 | 2 |
+| follow_up | 0 | 12 | 2 |
 | escalate | 0 | 0 | 14 |
 
 ## Threshold sweep
 
 | Threshold | Accuracy | Router-only accuracy | Escalation rate | Missed emergencies | Booked below threshold |
 |---|---|---|---|---|---|
-| 0.5 | 90.0% | 87.5% | 35.0% | 0 | 0 |
-| 0.6 | 90.0% | 87.5% | 35.0% | 0 | 0 |
-| 0.7 (current) | 90.0% | 87.5% | 40.0% | 0 | 0 |
+| 0.5 | 92.5% | 87.5% | 35.0% | 0 | 0 |
+| 0.6 | 92.5% | 87.5% | 35.0% | 0 | 0 |
+| 0.7 (current) | 92.5% | 87.5% | 40.0% | 0 | 0 |
 | 0.8 | 82.5% | 87.5% | 52.5% | 0 | 0 |
 | 0.9 | 57.5% | 87.5% | 77.5% | 0 | 0 |
 
@@ -41,7 +41,6 @@ Run `eval` · router `recorded` · threshold **0.70** · 40 labeled synthetic in
 
 - i12: labeled follow_up, routed escalate — tags: vague, unknown_caller
 - i08: labeled book, routed follow_up — tags: heating, estimate_visit
-- i20: labeled follow_up, routed book — tags: after_hours, sunday
 - i21: labeled follow_up, routed escalate — tags: vague
 
 ## Per-intake trace
@@ -67,7 +66,7 @@ Run `eval` · router `recorded` · threshold **0.70** · 40 labeled synthetic in
 | i17 | follow_up | follow_up (0.92) | follow_up | – | follow_up_logged | follow_up:logged_not_sent |
 | i18 | follow_up | follow_up (0.90) | follow_up | – | follow_up_logged | follow_up:logged_not_sent |
 | i19 | follow_up | follow_up (0.93) | follow_up | – | follow_up_logged | follow_up:blocked_consent |
-| i20 | follow_up | book (0.74) | book | – | booked | booking_confirmation:logged_not_sent |
+| i20 | follow_up | book (0.74) | follow_up | after_hours | follow_up_logged | follow_up:logged_not_sent |
 | i21 | follow_up | follow_up (0.62) | escalate | below_threshold | queued | owner_alert:logged_not_sent |
 | i22 | follow_up | follow_up (0.70) | follow_up | – | follow_up_logged | follow_up:logged_not_sent |
 | i23 | follow_up | follow_up (0.86) | follow_up | – | follow_up_logged | follow_up:logged_not_sent |

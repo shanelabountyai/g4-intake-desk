@@ -115,7 +115,7 @@ async def run_eval(desk: Desk, intakes: list[Intake], labels: dict[str, Label]) 
         srows = []
         for o in outcomes:
             r = o.decision.router
-            d = decide_final(r, texts[o.intake_id], t, invalid_reason=None if r else "invalid")
+            d = decide_final(r, texts[o.intake_id], t, invalid_reason=None if r else "invalid", after_hours=o.after_hours)
             srows.append((o.intake_id, d.route, r.route if r else None, r.confidence if r else 0.0, labels[o.intake_id]))
         sweep.append(compute(srows, t))
 

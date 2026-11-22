@@ -91,7 +91,7 @@ class FinalDecision(BaseModel):
     confidence: float
     reasons: list[str]
     router: RouterDecision | None = Field(description="Null when the router output was invalid.")
-    overrides: list[Literal["router_invalid", "emergency_guard", "below_threshold"]] = Field(default_factory=list)
+    overrides: list[Literal["router_invalid", "emergency_guard", "below_threshold", "after_hours"]] = Field(default_factory=list)
     emergency_signals: list[str] = Field(default_factory=list)
     threshold: float
 

@@ -1,7 +1,7 @@
 """The desk: one intake in, one route acted on, everything logged (T6).
 
     intake ─► contact lookup (G4 seed in G0) ─► router (recorded | Agent SDK) ─► parse_router (router_v1)
-           ─► decide_final: invalid → guard → threshold → router route (safety.py, D-12)
+           ─► decide_final: invalid → guard → threshold → after-hours book → follow-up → router route (safety.py, D-12, D-40)
            ─► G0 observability (route, confidence, cost) + G0 measurement intake.routed
            ─► book       : first free synthetic slot, confirmation → consent + brand → outbox
               follow_up  : template → consent + brand → outbox (brand failure → queue)
@@ -95,7 +95,7 @@ class Desk:
             invalid, status = f"router timed out after {cfg.router_timeout_s:g}s", "error"
         except Exception as e:  # noqa: BLE001 - any router failure must fail closed (escalate), never lose the intake
             invalid, status = f"router error: {type(e).__name__}: {e}", "error"
-        decision = decide_final(router_decision, intake.text, cfg.threshold, invalid_reason=invalid)
+        decision = decide_final(router_decision, intake.text, cfg.threshold, invalid_reason=invalid, after_hours=after)
 
         note = {"intake": intake.id, "router_route": router_decision.route if router_decision else None,
                 "confidence": decision.confidence, "final_route": decision.route, "overrides": decision.overrides,

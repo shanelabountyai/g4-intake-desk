@@ -32,7 +32,7 @@ POST /webhooks/form | /webhooks/missed-call        (or: intake-desk route --case
   ├─ G0 health first (degraded layer or missing g4 seed → stop)
   ├─ contact lookup: caller ID / form email → g4 synthetic contact (seeded into G0)
   ├─ router (RecordedRouter | AgentSdkRouter) ─► parse_router (router_v1) ─ invalid ─► escalate, confidence 0
-  ├─ decide_final:  emergency guard → escalate  ·  confidence < threshold → escalate  ·  else router route
+  ├─ decide_final:  emergency guard → escalate  ·  confidence < threshold → escalate  ·  after-hours book → follow up (D-40)  ·  else router route
   ├─ G0 observability (route, confidence, tokens, cost, run total, $10 cap) · G0 measurement intake.routed
   └─ book       first free synthetic slot → confirmation → G0 audience.consent → G0 brand.policy (v1 + g4-followup-1) → outbox
      follow_up  template → consent → brand → outbox                      (brand failure → queue)
@@ -75,7 +75,7 @@ From `docs/eval-report.md`. **Hand-written recorded router responses, not a mode
 
 | | |
 |---|---|
-| Routing accuracy (final route = label) | 36/40 (90.0%) |
+| Routing accuracy (final route = label) | 37/40 (92.5%) |
 | Router-only accuracy | 35/40 (87.5%) |
 | Escalation rate | 16/40 (40.0%) |
 | Missed labeled emergencies | **0 of 11** (the recorded router alone missed 2; the guard and threshold caught both) |

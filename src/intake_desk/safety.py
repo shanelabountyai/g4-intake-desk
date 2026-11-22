@@ -16,7 +16,7 @@ from typing import Literal
 
 from intake_desk.models import FinalDecision, Route, RouterDecision
 
-Override = Literal["router_invalid", "emergency_guard", "below_threshold"]
+Override = Literal["router_invalid", "emergency_guard", "below_threshold", "after_hours"]
 
 DEFAULT_THRESHOLD = 0.7  # D-3, provisional
 
@@ -52,8 +52,9 @@ def emergency_signals(text: str) -> list[str]:
 
 
 def decide_final(router: RouterDecision | None, text: str, threshold: float = DEFAULT_THRESHOLD,
-                 invalid_reason: str | None = None) -> FinalDecision:
-    """The fail-closed decision order (D-12). `router is None` means its output was invalid."""
+                 invalid_reason: str | None = None, after_hours: bool = False) -> FinalDecision:
+    """The fail-closed decision order (D-12, D-40). `router is None` means its output was invalid. A book that
+    survives the guard and the threshold becomes a follow-up after hours (PRD route table; owner decision D-40)."""
     if not 0.0 <= threshold <= 1.0:
         raise ValueError(f"threshold must be within 0..1, got {threshold}")
     signals = emergency_signals(text)
@@ -75,6 +76,10 @@ def decide_final(router: RouterDecision | None, text: str, threshold: float = DE
         overrides.append("below_threshold")
         reasons.append(f"confidence {router.confidence:.2f} < threshold {threshold:.2f}: escalated instead of '{router.route}'")
         route = "escalate"
+    if after_hours and route == "book":
+        overrides.append("after_hours")
+        reasons.append("after hours and not urgent: follow up to confirm a time instead of booking (D-40)")
+        route = "follow_up"
     return FinalDecision(route=route, confidence=router.confidence, reasons=reasons, router=router,
                          overrides=overrides, emergency_signals=signals, threshold=threshold)
 

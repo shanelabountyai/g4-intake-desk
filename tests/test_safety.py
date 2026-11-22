@@ -117,3 +117,15 @@ def test_router_prompt_carries_pointers_not_rules() -> None:
     for leaked in ("excited to share", "hope this finds you well", "60 words", "guarantee", "price", "$",
                    "gas", "carbon monoxide", "smoke", "spark", "oxygen", "0.7", "consented", "do not contact"):
         assert leaked not in low, leaked
+
+
+def test_after_hours_book_becomes_follow_up() -> None:
+    # Owner decision 2026-11-22 (D-40): the PRD row "after hours and not urgent → follow up" is a rule in code,
+    # applied after the guard and the threshold, so it never downgrades an escalation.
+    sure_book = RouterDecision(route="book", confidence=0.95, reasons=["clear request"])
+    d = decide_final(sure_book, "duct inspection please", 0.7, after_hours=True)
+    assert d.route == "follow_up" and d.overrides == ["after_hours"] and d.router == sure_book
+    assert decide_final(sure_book, "duct inspection please", 0.7, after_hours=False).route == "book"
+    assert decide_final(sure_book, "I smell gas", 0.7, after_hours=True).route == "escalate"
+    low = decide_final(RouterDecision(route="book", confidence=0.5, reasons=["?"]), "tune-up", 0.7, after_hours=True)
+    assert low.route == "escalate" and low.overrides == ["below_threshold"]

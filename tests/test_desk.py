@@ -257,3 +257,10 @@ def test_full_calendar_goes_to_the_owner_instead_of_crashing(make_desk) -> None:
     assert last.booking_id is None and last.queue_id and last.status == "queued"
     assert "no free" in desk.store.queue_item(last.queue_id)["why"]
     assert desk.store.has_intake("x12")
+
+
+def test_after_hours_clear_request_gets_the_after_hours_follow_up(desk, by_id) -> None:
+    # D-40: i20 (Sunday form, recorded router says book) is labeled follow_up by D-13; the desk now agrees.
+    [o] = run(desk, by_id["i20"])
+    assert o.after_hours and o.decision.route == "follow_up" and "after_hours" in o.decision.overrides
+    assert o.booking_id is None and o.outbound[0].template == "after_hours"
