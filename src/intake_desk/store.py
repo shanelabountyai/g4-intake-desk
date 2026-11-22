@@ -149,6 +149,9 @@ class Store:
             self.conn.execute("INSERT OR REPLACE INTO intakes (intake_id, contact_id, received_at, route, outcome, payload) VALUES (?,?,?,?,?,?)",
                               (intake_id, contact_id, received_at.astimezone(UTC).isoformat(), route, outcome, payload))
 
+    def has_intake(self, intake_id: str) -> bool:
+        return self.conn.execute("SELECT 1 FROM intakes WHERE intake_id = ?", (intake_id,)).fetchone() is not None
+
     def intake_payload(self, intake_id: str) -> str:
         row = self.conn.execute("SELECT payload FROM intakes WHERE intake_id = ?", (intake_id,)).fetchone()
         if row is None:

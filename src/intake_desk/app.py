@@ -84,7 +84,11 @@ def create_app(*, g0_db: str | None = None, desk_db: str | Path = ":memory:", th
         return d
 
     async def _process(request: Request, intake: Intake) -> Outcome:
-        return await desk(request).process(intake)
+        d = desk(request)
+        if d.store.has_intake(intake.id):
+            # Webhook retries must not book or message twice (review 2026-11-22 S5).
+            raise HTTPException(status_code=409, detail=f"intake {intake.id!r} already processed; nothing new booked or sent")
+        return await d.process(intake)
 
     @app.post("/webhooks/form")
     async def form(body: FormIn, request: Request) -> Outcome:

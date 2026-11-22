@@ -54,3 +54,15 @@ def test_reject_and_unknown_intake_fails_closed(client) -> None:
 def test_bad_payload_rejected(client) -> None:
     assert client.post("/webhooks/form", json={"text": ""}).status_code == 422
     assert client.post("/webhooks/missed-call", json={"text": "hi", "audio_url": "x"}).status_code == 422
+
+
+def test_retried_webhook_is_idempotent(client) -> None:
+    # Review 2026-11-22 S5: a retried POST with the same intake id must not book or message again.
+    payload = {"id": "i03", "received_at": "2026-07-15T11:05:00-05:00",
+               "text": "AC tune-up before the heat gets worse. Central air, 3-ton unit. Afternoons are best.",
+               "phone": "+1-312-555-0103", "email": "synthetic.caller03@example.com", "reply_channel": "email"}
+    assert client.post("/webhooks/form", json=payload).status_code == 200
+    again = client.post("/webhooks/form", json=payload)
+    assert again.status_code == 409 and "already processed" in again.json()["detail"]
+    assert len(client.get("/bookings").json()) == 1 and len(client.get("/outbox").json()) == 1
+    assert client.post("/webhooks/missed-call", json={"id": "i03", "text": "retry", "phone": "+1-312-555-0103"}).status_code == 409
