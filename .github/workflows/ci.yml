@@ -27,6 +27,8 @@ jobs:
       - name: Eval report (recorded fixtures)
         run: |
           export G0_DB_PATH="$RUNNER_TEMP/layer.sqlite"
-          uv run intake-desk eval --run-id ci --out "$RUNNER_TEMP/out" --report "$RUNNER_TEMP/eval-report.md"
+          uv run intake-desk eval --run-id eval --out "$RUNNER_TEMP/out" --report "$RUNNER_TEMP/eval-report.md"
+          # The committed report must match a fresh run, so a moved number shows up as a CI failure (D-31).
+          diff -u docs/eval-report.md "$RUNNER_TEMP/eval-report.md"
       - name: Demo (one command)
         run: uv run intake-desk demo
