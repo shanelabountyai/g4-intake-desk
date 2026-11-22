@@ -186,3 +186,30 @@ def test_book_after_owner_approved_booking_is_suppressed(make_desk) -> None:
     desk.approve(a.queue_id, "book")
     [b] = run(desk, _same_caller("b", 10))
     assert b.status == "suppressed_duplicate" and len(desk.store.bookings()) == 1
+
+
+class CrashingRouter(ScriptedRouter):
+    def __init__(self, exc: BaseException | None = None, sleep_s: float = 0.0) -> None:
+        super().__init__({})
+        self.exc, self.sleep_s = exc, sleep_s
+
+    async def route(self, intake, prompt):
+        if self.sleep_s:
+            await anyio.sleep(self.sleep_s)
+        raise self.exc or RuntimeError("SDK process died")
+
+
+def test_router_crash_fails_closed_and_still_alerts(make_desk, by_id) -> None:
+    # Review 2026-11-22 M2: any router exception (not only RouterCallError) must escalate, not lose the intake.
+    desk = make_desk(router=CrashingRouter(RuntimeError("SDK process died")))
+    [o] = run(desk, by_id["i24"])
+    assert o.decision.route == "escalate" and "router_invalid" in o.decision.overrides and "emergency_guard" in o.decision.overrides
+    assert o.queue_id and [r.kind for r in o.outbound] == ["owner_alert"]
+
+
+def test_router_hang_times_out_and_fails_closed(make_desk, by_id) -> None:
+    desk = make_desk(router=CrashingRouter(sleep_s=5))
+    desk.config.router_timeout_s = 0.05
+    [o] = run(desk, by_id["i01"])
+    assert o.decision.route == "escalate" and "router_invalid" in o.decision.overrides and o.queue_id
+    assert "timed out" in o.decision.reasons[0]

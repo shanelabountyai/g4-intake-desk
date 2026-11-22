@@ -18,6 +18,8 @@ from pathlib import Path
 from typing import Any, Literal
 from zoneinfo import ZoneInfo
 
+import anyio
+
 from intake_desk import templates
 from intake_desk.layer import Layer
 from intake_desk.models import REPO_DIR, FinalDecision, Intake, OutboundRecord, Outcome, RouterDecision, RouterOutputInvalid, parse_router
@@ -39,6 +41,7 @@ class DeskConfig:
     slot_days_ahead: int = 3
     duplicate_window_hours: int = 24
     threshold: float = DEFAULT_THRESHOLD
+    router_timeout_s: float = 60.0  # a hung router call fails closed (escalates) instead of blocking the webhook
 
     @classmethod
     def load(cls, path: Path | None = None, threshold: float | None = None) -> DeskConfig:
@@ -76,13 +79,18 @@ class Desk:
         invalid: str | None = None
         model, tin, tout, cost, dur, status = getattr(self.router, "model", None), 0, 0, 0.0, None, "ok"
         try:
-            call = await self.router.route(intake, prompt)
+            with anyio.fail_after(cfg.router_timeout_s):
+                call = await self.router.route(intake, prompt)
             model, tin, tout, dur = call.model, call.input_tokens, call.output_tokens, call.duration_ms
             if self.router.measured:
                 cost = call.sdk_cost_usd if call.sdk_cost_usd is not None else self.layer.cost_usd(call.model, tin, tout)
             router_decision = parse_router(call.raw)
         except (RouterCallError, RouterOutputInvalid) as e:
             invalid, status = str(e), "error"
+        except TimeoutError:
+            invalid, status = f"router timed out after {cfg.router_timeout_s:g}s", "error"
+        except Exception as e:  # noqa: BLE001 - any router failure must fail closed (escalate), never lose the intake
+            invalid, status = f"router error: {type(e).__name__}: {e}", "error"
         decision = decide_final(router_decision, intake.text, cfg.threshold, invalid_reason=invalid)
 
         note = {"intake": intake.id, "router_route": router_decision.route if router_decision else None,
