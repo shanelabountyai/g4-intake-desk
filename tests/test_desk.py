@@ -243,3 +243,17 @@ def test_live_router_is_not_called_once_the_run_is_over_the_g0_cap(make_desk, by
     assert router.calls["router"] == 1  # the second intake never reached the live router
     assert second.decision.route == "escalate" and "router_invalid" in second.decision.overrides and second.queue_id
     assert "cost cap" in second.decision.reasons[0]
+
+
+def test_full_calendar_goes_to_the_owner_instead_of_crashing(make_desk) -> None:
+    # Review 2026-11-22 S6: book_first_free raised LookupError once the 12 synthetic slots were taken, so the intake
+    # was never remembered or queued.
+    answers = {f"x{n}": _ans("book") for n in range(13)}
+    desk = make_desk(router=ScriptedRouter(answers))
+    outs = [anyio.run(desk.process, Intake(id=f"x{n}", source="form", received_at=datetime.fromisoformat("2026-01-13T09:00:00-06:00"),
+                                           text="Furnace tune-up please, any weekday morning.", reply_channel="sms")) for n in range(13)]
+    assert len(desk.store.bookings()) == 12
+    last = outs[-1]
+    assert last.booking_id is None and last.queue_id and last.status == "queued"
+    assert "no free" in desk.store.queue_item(last.queue_id)["why"]
+    assert desk.store.has_intake("x12")

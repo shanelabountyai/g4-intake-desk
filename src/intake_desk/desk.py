@@ -148,7 +148,14 @@ class Desk:
 
     def _book(self, intake: Intake, contact_id: str | None, outcome: Outcome) -> None:
         cfg = self.config
-        booking_id, start = self.store.book_first_free(intake.id, contact_id, intake.received_at, cfg.timezone, cfg.slot_times, cfg.slot_days_ahead)
+        try:
+            booking_id, start = self.store.book_first_free(intake.id, contact_id, intake.received_at, cfg.timezone, cfg.slot_times,
+                                                           cfg.slot_days_ahead)
+        except LookupError as e:
+            # Nothing to offer: a person schedules it; nothing is sent to the customer (review 2026-11-22 S6).
+            outcome.queue_id = self.store.enqueue(intake.id, contact_id, "owner_handled", f"book: {e}; schedule by hand", [str(e)])
+            outcome.status = "queued"
+            return
         outcome.booking_id = booking_id
         rec = self._customer_message(intake, contact_id, "booking_confirmation", "booking_confirmation",
                                      templates.render_confirmation(start.strftime("%A %B %d at %I:%M %p").replace(" 0", " ")))
