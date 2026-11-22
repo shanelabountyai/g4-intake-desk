@@ -161,17 +161,17 @@ class Store:
     # -- synthetic calendar (D-21) ---------------------------------------------
 
     def book_first_free(self, intake_id: str, contact_id: str | None, after: datetime, tz: str, slot_times: list[str],
-                        days_ahead: int) -> tuple[str, datetime]:
+                        days_ahead: int, saturday_slot_times: list[str] | None = None) -> tuple[str, datetime]:
         zone = ZoneInfo(tz)
         local = after.astimezone(zone)
         day = local.date()
         found = 0
         while found < days_ahead:
             day = day + timedelta(days=1)
-            if day.weekday() >= 5:  # Mon-Fri only
+            if day.weekday() == 6 or (day.weekday() == 5 and not saturday_slot_times):  # Sunday closed; Saturday only with slots (D-41)
                 continue
             found += 1
-            for t in slot_times:
+            for t in (saturday_slot_times or []) if day.weekday() == 5 else slot_times:
                 hh, mm = (int(x) for x in t.split(":"))
                 start = datetime(day.year, day.month, day.day, hh, mm, tzinfo=zone)
                 taken = self.conn.execute("SELECT 1 FROM bookings WHERE slot_start = ?", (start.isoformat(),)).fetchone()

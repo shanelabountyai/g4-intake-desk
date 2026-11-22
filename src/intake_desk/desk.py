@@ -39,6 +39,7 @@ class DeskConfig:
     on_call: bool = True
     slot_times: list[str] = field(default_factory=lambda: ["08:00", "10:00", "13:00", "15:00"])
     slot_days_ahead: int = 3
+    saturday_slot_times: list[str] = field(default_factory=list)  # D-41
     duplicate_window_hours: int = 24
     threshold: float = DEFAULT_THRESHOLD
     router_timeout_s: float = 60.0  # a hung router call fails closed (escalates) instead of blocking the webhook
@@ -47,7 +48,8 @@ class DeskConfig:
     def load(cls, path: Path | None = None, threshold: float | None = None) -> DeskConfig:
         doc = json.loads((path or CONFIG_FILE).read_text(encoding="utf-8"))
         return cls(timezone=doc["timezone"], hours=doc["hours"], on_call=bool(doc["on_call"]), slot_times=list(doc["slot_times"]),
-                   slot_days_ahead=int(doc["slot_days_ahead"]), duplicate_window_hours=int(doc["duplicate_window_hours"]),
+                   slot_days_ahead=int(doc["slot_days_ahead"]), saturday_slot_times=list(doc.get("saturday_slot_times", [])),
+                   duplicate_window_hours=int(doc["duplicate_window_hours"]),
                    threshold=DEFAULT_THRESHOLD if threshold is None else threshold)
 
     def local(self, dt: datetime) -> datetime:
@@ -150,7 +152,7 @@ class Desk:
         cfg = self.config
         try:
             booking_id, start = self.store.book_first_free(intake.id, contact_id, intake.received_at, cfg.timezone, cfg.slot_times,
-                                                           cfg.slot_days_ahead)
+                                                           cfg.slot_days_ahead, cfg.saturday_slot_times)
         except LookupError as e:
             # Nothing to offer: a person schedules it; nothing is sent to the customer (review 2026-11-22 S6).
             outcome.queue_id = self.store.enqueue(intake.id, contact_id, "owner_handled", f"book: {e}; schedule by hand", [str(e)])

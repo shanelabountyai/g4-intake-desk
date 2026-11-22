@@ -264,3 +264,13 @@ def test_after_hours_clear_request_gets_the_after_hours_follow_up(desk, by_id) -
     [o] = run(desk, by_id["i20"])
     assert o.after_hours and o.decision.route == "follow_up" and "after_hours" in o.decision.overrides
     assert o.booking_id is None and o.outbound[0].template == "after_hours"
+
+
+def test_saturday_has_bookable_slots_inside_saturday_hours(make_desk) -> None:
+    # D-41 (owner decision 2026-11-22): Saturday 09:00-13:00 is business time, so it gets slots (09:00, 11:00).
+    desk = make_desk(router=ScriptedRouter({"f1": _ans("book"), "f2": _ans("book"), "f3": _ans("book")}))
+    fri = [Intake(id=f"f{n}", source="form", received_at=datetime.fromisoformat("2026-01-16T10:00:00-06:00"),
+                  text="Furnace tune-up please.", reply_channel="sms") for n in (1, 2, 3)]
+    run(desk, *fri)
+    assert [b["slot_start"] for b in desk.store.bookings()] == [
+        "2026-01-17T09:00:00-06:00", "2026-01-17T11:00:00-06:00", "2026-01-19T08:00:00-06:00"]
