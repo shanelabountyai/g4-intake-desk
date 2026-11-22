@@ -78,7 +78,11 @@ class Desk:
         router_decision: RouterDecision | None = None
         invalid: str | None = None
         model, tin, tout, cost, dur, status = getattr(self.router, "model", None), 0, 0, 0.0, None, "ok"
+        spent = self.layer.run_total(self.run_id).cost_usd if self.router.measured else 0.0
         try:
+            if self.router.measured and spent >= self.layer.cap_usd():
+                # G0's run cap is enforced here, before any further live call (review 2026-11-22 S4).
+                raise RouterCallError(f"G0 run cost cap reached (${spent:.2f} of ${self.layer.cap_usd():.2f}): live router not called")
             with anyio.fail_after(cfg.router_timeout_s):
                 call = await self.router.route(intake, prompt)
             model, tin, tout, dur = call.model, call.input_tokens, call.output_tokens, call.duration_ms

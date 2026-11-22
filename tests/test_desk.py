@@ -223,3 +223,23 @@ def test_router_hang_times_out_and_fails_closed(make_desk, by_id) -> None:
     [o] = run(desk, by_id["i01"])
     assert o.decision.route == "escalate" and "router_invalid" in o.decision.overrides and o.queue_id
     assert "timed out" in o.decision.reasons[0]
+
+
+def test_live_router_is_not_called_once_the_run_is_over_the_g0_cap(make_desk, by_id) -> None:
+    # Review 2026-11-22 S4: G0 reports over_cap but nothing acted on it; max_budget_usd is per SDK call, not per run.
+    from intake_desk.router import RouterCall
+
+    class Pricey(ScriptedRouter):
+        measured = True
+
+        async def route(self, intake, prompt):
+            self.calls["router"] += 1
+            return RouterCall(model="claude-sonnet-5-5", raw=_ans("book"), sdk_cost_usd=11.0)
+
+    router = Pricey({})
+    desk = make_desk(router=router)
+    first, second = run(desk, by_id["i01"], by_id["i02"])
+    assert first.status == "booked"
+    assert router.calls["router"] == 1  # the second intake never reached the live router
+    assert second.decision.route == "escalate" and "router_invalid" in second.decision.overrides and second.queue_id
+    assert "cost cap" in second.decision.reasons[0]
