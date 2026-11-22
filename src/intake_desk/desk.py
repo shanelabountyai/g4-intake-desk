@@ -95,7 +95,7 @@ class Desk:
 
         note = {"intake": intake.id, "router_route": router_decision.route if router_decision else None,
                 "confidence": decision.confidence, "final_route": decision.route, "overrides": decision.overrides,
-                "path": "measured" if self.router.measured else "recorded"}
+                "reasons": decision.reasons, "path": "measured" if self.router.measured else "recorded"}
         self.layer.log_call(run_id=self.run_id, step=f"route:{intake.id}", model=model, input_tokens=tin, output_tokens=tout,
                             cost_usd=cost, status=status, duration_ms=dur, note=json.dumps(note))
 

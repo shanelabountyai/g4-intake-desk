@@ -130,6 +130,16 @@ def test_observability_and_measurement_per_intake(desk, by_id) -> None:
     assert n == 2
 
 
+def test_reasons_are_logged_for_every_route_not_only_in_the_response(desk, by_id) -> None:
+    # Review 2026-11-22 S3: AC1 "route with logged reasons" must hold on the webhook/route path too, so the G0
+    # observability note carries the final reasons for book, follow-up and escalate alike.
+    import json as _json
+    run(desk, by_id["i01"], by_id["i11"], by_id["i24"])
+    notes = [_json.loads(r[0]) for r in desk.layer.db.conn.execute("SELECT note FROM run_log WHERE run_id = ?", (desk.run_id,))]
+    assert [n["final_route"] for n in notes] == ["book", "follow_up", "escalate"]
+    assert all(n["reasons"] and all(isinstance(x, str) and x for x in n["reasons"]) for n in notes)
+
+
 def test_free_text_intake_without_recording_escalates(desk) -> None:
     i = Intake(id="adhoc-1", source="form", received_at=datetime.fromisoformat("2026-07-14T10:00:00-05:00"), text="Tune-up please",
                phone="+1-312-555-0101")
