@@ -1,0 +1,38 @@
+{
+  "additionalProperties": false,
+  "description": "The router contract, published as schemas/router_v1.json.",
+  "properties": {
+    "route": {
+      "enum": [
+        "book",
+        "follow_up",
+        "escalate"
+      ],
+      "title": "Route",
+      "type": "string"
+    },
+    "confidence": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "reasons": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 5,
+      "minItems": 1,
+      "title": "Reasons",
+      "type": "array"
+    }
+  },
+  "required": [
+    "route",
+    "confidence",
+    "reasons"
+  ],
+  "title": "RouterDecision v1",
+  "type": "object",
+  "$id": "router_v1"
+}

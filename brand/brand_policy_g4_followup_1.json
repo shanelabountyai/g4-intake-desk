@@ -1,0 +1,14 @@
+{
+  "_about": "G4 brand policy delta for customer follow-up and booking messages (D-17). Seeded into G0 through its own loader as policy version g4-followup-1; every customer message must pass G0 policy v1 (unchanged, not copied) AND this version. Rules are home-service tone rules that G0 v1 does not hold.",
+  "policy_version": "g4-followup-1",
+  "source": "g4-intake-desk docs/prd.md (brand.policy: tone for follow-up messages); D-17",
+  "text": "Customer messages from a home-services business: plain, calm and short. Say what happens next and who will contact them. Never quote a price or a fee in a message; prices come from a person. Never promise an arrival time or guarantee an outcome. Texts stay under 60 words.",
+  "channels": ["email", "other"],
+  "rules": [
+    {"id": "g4.no_price_figures", "kind": "regex", "pattern": "\\$\\s?\\d|\\b\\d+\\s?(dollars|bucks)\\b", "channels": ["*"], "severity": "fail", "fix": "Remove the price; say a team member will go over pricing."},
+    {"id": "g4.no_guarantee", "kind": "regex", "pattern": "\\bguarantee(d|s)?\\b|\\bpromise(d|s)?\\b", "channels": ["*"], "severity": "fail", "fix": "Do not promise outcomes or arrival times; say what happens next."},
+    {"id": "g4.no_arrival_promise", "kind": "regex", "pattern": "\\b(within|in) (the next )?\\d+ (minutes|mins|hours|hrs)\\b", "channels": ["*"], "severity": "fail", "fix": "Do not commit to an arrival window in writing; the dispatcher confirms times."},
+    {"id": "g4.sms_max_60_words", "kind": "max_words", "limit": 60, "channels": ["other"], "severity": "fail", "fix": "Keep texts under 60 words."},
+    {"id": "g4.no_pressure_language", "kind": "regex", "pattern": "\\b(act now|last chance|limited time|don't miss out)\\b", "channels": ["*"], "severity": "fail", "fix": "No pressure language in customer messages."}
+  ]
+}

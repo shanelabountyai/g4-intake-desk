@@ -1,0 +1,530 @@
+{
+  "_about": "Synthetic contacts for G4, seeded into G0 through its own loader (D-9). All @example.com, fictional 555-01xx numbers. `phone` is read by the G4 caller-ID lookup; G0's loader ignores it.",
+  "contacts": [
+    {
+      "contact_id": "g4-c01",
+      "email": "synthetic.caller01@example.com",
+      "phone": "+1-312-555-0101",
+      "name": "Synthetic Caller 01",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c02",
+      "email": "synthetic.caller02@example.com",
+      "phone": "+1-312-555-0102",
+      "name": "Synthetic Caller 02",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c03",
+      "email": "synthetic.caller03@example.com",
+      "phone": "+1-312-555-0103",
+      "name": "Synthetic Caller 03",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c04",
+      "email": "synthetic.caller04@example.com",
+      "phone": "+1-312-555-0104",
+      "name": "Synthetic Caller 04",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c05",
+      "email": "synthetic.caller05@example.com",
+      "phone": "+1-312-555-0105",
+      "name": "Synthetic Caller 05",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c06",
+      "email": "synthetic.caller06@example.com",
+      "phone": "+1-312-555-0106",
+      "name": "Synthetic Caller 06",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c07",
+      "email": "synthetic.caller07@example.com",
+      "phone": "+1-312-555-0107",
+      "name": "Synthetic Caller 07",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c08",
+      "email": "synthetic.caller08@example.com",
+      "phone": "+1-312-555-0108",
+      "name": "Synthetic Caller 08",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c09",
+      "email": "synthetic.caller09@example.com",
+      "phone": "+1-312-555-0109",
+      "name": "Synthetic Caller 09",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c10",
+      "email": "synthetic.caller10@example.com",
+      "phone": "+1-312-555-0110",
+      "name": "Synthetic Caller 10",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c11",
+      "email": "synthetic.caller11@example.com",
+      "phone": "+1-312-555-0111",
+      "name": "Synthetic Caller 11",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c13",
+      "email": "synthetic.caller13@example.com",
+      "phone": "+1-312-555-0113",
+      "name": "Synthetic Caller 13",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c15",
+      "email": "synthetic.caller15@example.com",
+      "phone": "+1-312-555-0115",
+      "name": "Synthetic Caller 15",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c16",
+      "email": "synthetic.caller16@example.com",
+      "phone": "+1-312-555-0116",
+      "name": "Synthetic Caller 16",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c17",
+      "email": "synthetic.caller17@example.com",
+      "phone": "+1-312-555-0117",
+      "name": "Synthetic Caller 17",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c18",
+      "email": "synthetic.caller18@example.com",
+      "phone": "+1-312-555-0118",
+      "name": "Synthetic Caller 18",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c19",
+      "email": "synthetic.caller19@example.com",
+      "phone": "+1-312-555-0119",
+      "name": "Synthetic Caller 19",
+      "title": null,
+      "company": null,
+      "do_not_contact": true,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c20",
+      "email": "synthetic.caller20@example.com",
+      "phone": "+1-312-555-0120",
+      "name": "Synthetic Caller 20",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c21",
+      "email": "synthetic.caller21@example.com",
+      "phone": "+1-312-555-0121",
+      "name": "Synthetic Caller 21",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c22",
+      "email": "synthetic.caller22@example.com",
+      "phone": "+1-312-555-0122",
+      "name": "Synthetic Caller 22",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c23",
+      "email": "synthetic.caller23@example.com",
+      "phone": "+1-312-555-0123",
+      "name": "Synthetic Caller 23",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c24",
+      "email": "synthetic.caller24@example.com",
+      "phone": "+1-312-555-0124",
+      "name": "Synthetic Caller 24",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c25",
+      "email": "synthetic.caller25@example.com",
+      "phone": "+1-312-555-0125",
+      "name": "Synthetic Caller 25",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c26",
+      "email": "synthetic.caller26@example.com",
+      "phone": "+1-312-555-0126",
+      "name": "Synthetic Caller 26",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c27",
+      "email": "synthetic.caller27@example.com",
+      "phone": "+1-312-555-0127",
+      "name": "Synthetic Caller 27",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c28",
+      "email": "synthetic.caller28@example.com",
+      "phone": "+1-312-555-0128",
+      "name": "Synthetic Caller 28",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c29",
+      "email": "synthetic.caller29@example.com",
+      "phone": "+1-312-555-0129",
+      "name": "Synthetic Caller 29",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c30",
+      "email": "synthetic.caller30@example.com",
+      "phone": "+1-312-555-0130",
+      "name": "Synthetic Caller 30",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c31",
+      "email": "synthetic.caller31@example.com",
+      "phone": "+1-312-555-0131",
+      "name": "Synthetic Caller 31",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c32",
+      "email": "synthetic.caller32@example.com",
+      "phone": "+1-312-555-0132",
+      "name": "Synthetic Caller 32",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c33",
+      "email": "synthetic.caller33@example.com",
+      "phone": "+1-312-555-0133",
+      "name": "Synthetic Caller 33",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c34",
+      "email": "synthetic.caller34@example.com",
+      "phone": "+1-312-555-0134",
+      "name": "Synthetic Caller 34",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c35",
+      "email": "synthetic.caller35@example.com",
+      "phone": "+1-312-555-0135",
+      "name": "Synthetic Caller 35",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c36",
+      "email": "synthetic.caller36@example.com",
+      "phone": "+1-312-555-0136",
+      "name": "Synthetic Caller 36",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": true,
+        "email": true
+      }
+    },
+    {
+      "contact_id": "g4-c40",
+      "email": "synthetic.caller40@example.com",
+      "phone": "+1-312-555-0140",
+      "name": "Synthetic Caller 40",
+      "title": null,
+      "company": null,
+      "do_not_contact": false,
+      "consent_recorded_at": "2026-01-01T00:00:00Z",
+      "source": "g4-intake-desk synthetic seed (fixtures/make_fixtures.py)",
+      "consent": {
+        "sms": false,
+        "email": false
+      }
+    }
+  ]
+}

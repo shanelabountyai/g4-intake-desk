@@ -1,0 +1,20 @@
+{
+  "_about": "Synthetic business profile for the G4 demo (D-14). Not a real company.",
+  "name": "Example Comfort HVAC (synthetic)",
+  "trade": "hvac",
+  "timezone": "America/Chicago",
+  "hours": {
+    "mon": ["08:00", "17:00"],
+    "tue": ["08:00", "17:00"],
+    "wed": ["08:00", "17:00"],
+    "thu": ["08:00", "17:00"],
+    "fri": ["08:00", "17:00"],
+    "sat": ["09:00", "13:00"],
+    "sun": null
+  },
+  "on_call": true,
+  "slot_times": ["08:00", "10:00", "13:00", "15:00"],
+  "saturday_slot_times": ["09:00", "11:00"],
+  "slot_days_ahead": 3,
+  "duplicate_window_hours": 24
+}

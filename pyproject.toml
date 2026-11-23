@@ -1,0 +1,67 @@
+[project]
+name = "g4-intake-desk"
+version = "0.1.0"
+description = "Home-Services Intake Desk, code version (G4·C): a router agent books, follows up or escalates synthetic HVAC intakes, attached to the shared capability layer (G0)."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+dependencies = [
+    # The shared layer, pinned to G0 main after g0-shared-layer PR #1 merged, exactly as G3·C does (D-8).
+    "g0-shared-layer @ git+https://github.com/shanelabountyai/g0-shared-layer@6f5e605f8b485afa95f1cbef73911057b8b4dec5",
+    "claude-agent-sdk>=0.2.170,<0.3",
+    "fastapi>=0.115",
+    "uvicorn>=0.30",  # `intake-desk serve` (localhost only)
+    "pydantic>=2.11,<3",
+    "anyio>=4",
+]
+
+[project.scripts]
+intake-desk = "intake_desk.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "httpx>=0.27",  # FastAPI TestClient only; never imported by the package (test_safety)
+    "jsonschema>=4.23",
+    "ruff>=0.8",
+    "mypy>=1.13",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/intake_desk"]
+
+[tool.hatch.metadata]
+allow-direct-references = true  # the G0 git pin above
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 160
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"fixtures/make_fixtures.py" = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src"]
+strict = true
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["claude_agent_sdk.*"]
+follow_imports = "skip"
+
+[tool.uv]
+required-version = ">=0.5"
