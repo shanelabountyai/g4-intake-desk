@@ -1,5 +1,16 @@
 # NEXT
 
+## 2026-11-23 — owner decisions built (branch `build/g4c`, PR #1 still draft, unmerged)
+
+Shane approved the review's recommendations. Built, each with tests first:
+- `b230c79` **D-40** after hours, a book becomes a follow-up in code (after the guard and threshold, so escalations are never downgraded). **Measured change on the recorded fixtures:** routing accuracy 36/40 (90.0%) → **37/40 (92.5%)** (i20); router-only 35/40, escalation rate 16/40, missed emergencies 0 of 11, outbox 3/35/2 unchanged. `docs/eval-report.md` regenerated, README updated.
+- `e414336` **D-41** Saturday slots 09:00 and 11:00 (Sunday closed). Eval unchanged.
+- `1da4e44` **D-42** kept as they are: follow-up after a booking is still sent; guard false positives stay.
+
+**Gate (local, head `1da4e44`):** ruff All checks passed! · mypy no issues in 12 files · pytest 135 passed · eval exit 0, report identical to the committed one · **CI:** push and pull_request runs on `1da4e44`: success.
+
+**Still open:** D-2..D-5, D-11, D-13, D-15, D-16, D-25 provisional; router model; the 7 nits (D-39). Merge stays yours.
+
 ## 2026-11-22 — overnight review (branch `build/g4c`, PR #1 stays draft and unmerged)
 
 **Review** (fresh review agent on PR #1's diff + PRD/backlog/decisions): **2 must-fix, 6 should-fix, 7 nits**, plus owner calls. Every README / NEXT / eval-report number was reproduced (36/40, 35/40, 16/40, 0 of 11 missed, i29/i33, sweep, outbox 3/35/2, 17 pending). G0 pinned by SHA and not copied; no secrets; no skipped tests; data synthetic.
