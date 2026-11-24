@@ -1,5 +1,22 @@
 # NEXT
 
+## 2026-11-24 — pre-live portfolio pack, docs only (branch `portfolio-pack/2026-11-24`, draft PR, unmerged)
+
+**Not deployed.** Nothing here is live; all numbers are on synthetic intakes and hand-written recorded router responses (D-6).
+
+**Done** (one commit each, cut from `main` @ `ec70d30`): D-43 judgment calls · `docs/DEMO.md` (12 stops) · `docs/LINKEDIN_DRAFTS.md` (2 drafts on D-11 and D-3, drafted, unposted) · D-44 cost note · `docs/RELEASE_NOTES.md` ("Not deployed — portfolio pack 2026-11-24") · this section. Exec brief [G4·C Intake Desk in Brief](https://claude.ai/artifact/W2h3DJ2r1W8RoScuDsUZ8w) re-read and kept unchanged (accurate against today's files and gate; not shared).
+
+**Verified, and how** (2026-11-24, `main` @ `ec70d30`, the steps in `.github/workflows/ci.yml`): `uv sync --frozen` exit 0 · `uv run ruff check .` exit 0, All checks passed! · `uv run mypy` exit 0, no issues in 12 source files · `uv run pytest` exit 0, 135 passed · `intake-desk eval --run-id eval` exit 0 and `diff -u docs/eval-report.md` exit 0 (identical) · `uv run intake-desk demo` exit 0. Every DEMO.md stop names its test or command; `intake-desk serve` was started once on 127.0.0.1:8040 (`/health` `sends_anything: false`, `/docs` 200, i25 webhook escalated) and stopped.
+
+**Not verified:** no live model call; no stop clicked through by Shane; build cost and live running cost not measured (D-44); the API has no auth and never ran beyond localhost; model price ($2/$10 per MTok) not re-checked since 2026-11-21. No doc fix needed a code change.
+
+**You:**
+1. Review the draft PR (docs only) and merge it if you are happy; this run never merges.
+2. Click through `docs/DEMO.md` yourself, starting with `uv sync --frozen && uv run intake-desk demo`.
+3. Read the brief (link above); it is private and unshared.
+4. Edit the two LinkedIn drafts in your own words before posting anything.
+5. Decide whether to deploy. If yes, auth (BACKLOG "Later") and one live eval run come first.
+
 ## 2026-11-23 — owner decisions built (branch `build/g4c`, PR #1 still draft, unmerged)
 
 Shane approved the review's recommendations. Built, each with tests first:
